@@ -3,19 +3,15 @@ package app;
 import util.SubArrayUtil;
 import util.Timer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Main {
 
     public static void main(String[] args) {
         try{
-            int[] array = {1, 2, 4, 5, 6, 8, 9, 10, 11};
+            int[] array = {-2, -1, 0, 1, 4, 5, 6, 8, 9, 10, 11, 12, 13};
             Timer questao4 = new Timer();
-            System.out.println(SubArrayUtil.getBiggestSubset(array));
+//            System.out.println(SubArrayUtil.getBiggestSubsetBruteForce(array));
+//            System.out.println(SubArrayUtil.getBiggestSubsetDynamicProgramming(array));
             System.out.println("Tempo decorrido: " + questao4.getTotalTimeInNano() + " nanosegundos");
-
         }catch (Exception e){
             e.printStackTrace();
         }

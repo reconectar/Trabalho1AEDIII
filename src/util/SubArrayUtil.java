@@ -2,6 +2,8 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SubArrayUtil {
 
@@ -43,7 +45,7 @@ public class SubArrayUtil {
         return listOfSubsets;
     }
 
-    private static ArrayList<Integer> findBiggestSubset(ArrayList<ArrayList<Integer>> listOfSubsets){
+    private static ArrayList<Integer> findBiggestSubsetB(ArrayList<ArrayList<Integer>> listOfSubsets){
         int indexOfBiggest = 0;
         int biggestSize = 0;
         // O for abaixo encontra o maior subconjunto na tentativa e erro e salva seu indice
@@ -56,9 +58,55 @@ public class SubArrayUtil {
         return listOfSubsets.get(indexOfBiggest); // o metodo retorna o subconjunto a partir do indice encontrado
     }
 
-    // Unico metodo publico para encapsular a logica
-    public static ArrayList<Integer> getBiggestSubset(int array[]){
-        return findBiggestSubset(divideSet(array, getSubsetsStartIndex(array)));
+    // Unico metodo publico para encapsular a logica do bruteforce
+    public static ArrayList<Integer> getBiggestSubsetBruteForce(int array[]){
+        return findBiggestSubsetB(divideSet(array, getSubsetsStartIndex(array)));
+    }
+
+    private static int[] findBiggestSubsetD(int[] nums) {
+        if (nums == null) {
+            return new int[0];
+        }
+        Map<Integer, Integer> numConsecutiveValuesStartingFrom = new HashMap<Integer, Integer>();
+        for (int num : nums) {
+            numConsecutiveValuesStartingFrom.put(num, 0);
+        }
+        int n = nums.length;
+        int maxNumConsecutiveValues = 0;
+        int maxStartIndex = 0;
+        for (int i = 0; i < n; ++i) {
+            int num = nums[i];
+            int numConsecutiveValues = findNumConsecutiveValuesStartingAt(num, numConsecutiveValuesStartingFrom);
+            if (numConsecutiveValues > maxNumConsecutiveValues) {
+                maxNumConsecutiveValues = numConsecutiveValues;
+                maxStartIndex = i;
+            }
+        }
+        int[] longestConsecutiveSequence = new int[maxNumConsecutiveValues];
+        for (int i = 0; i < maxNumConsecutiveValues; ++i) {
+            int num = nums[maxStartIndex] + i;
+            longestConsecutiveSequence[i] = num;
+        }
+        return longestConsecutiveSequence;
+    }
+    private static int findNumConsecutiveValuesStartingAt(int num, Map<Integer, Integer> numConsecutiveValuesStartingFrom) {
+        boolean isNumInArray = numConsecutiveValuesStartingFrom.containsKey(num);
+        if (!isNumInArray) {
+            return 0;
+        }
+        int numConsecutiveValuesStartingFromNum = numConsecutiveValuesStartingFrom.get(num);
+        boolean numConsecutiveValuesHaveBeenComputed = (numConsecutiveValuesStartingFromNum != 0);
+        if (numConsecutiveValuesHaveBeenComputed) {
+            return numConsecutiveValuesStartingFromNum;
+        }
+        int numConsecutiveValues = 1 + findNumConsecutiveValuesStartingAt(num + 1, numConsecutiveValuesStartingFrom);
+        numConsecutiveValuesStartingFrom.put(num, numConsecutiveValues);
+        return numConsecutiveValues;
+    }
+
+    // Unico metodo publico para encapsular a logica do dynamic programming
+    public static String getBiggestSubsetDynamicProgramming(int array[]){
+        return Arrays.toString(findBiggestSubsetD(array));
     }
 
 }
