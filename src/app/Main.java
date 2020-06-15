@@ -4,8 +4,6 @@ import util.BruteForceQ4;
 import util.DynamicProgrammingQ4;
 import util.Timer;
 
-import java.lang.reflect.Array;
-
 public class Main {
 
     public static void main(String[] args) {
