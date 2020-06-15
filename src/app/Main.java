@@ -10,8 +10,10 @@ public class Main {
         try{
             final int arraySize = 1000;
             int[] array = new int[arraySize];
+            int min = 0;
+            int max = 100;
             for (int i=0; i< arraySize; i++){
-                array[i] = (int) (Math.random() * 10);
+                array[i] = (int) (min + (Math.random() * (max - min) + 1));
             }
             Timer questao4 = new Timer();
 //            System.out.println(BruteForceQ4.getBiggestSubsetBruteForce(array));
